@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   getProfile,
   saveProfile,
@@ -9,7 +8,6 @@ import {
   getDailyHistory,
   computeStreak,
   todayKey,
-  getPillarScores,
 } from "../lib/storage";
 import RadarChart from "../components/RadarChart";
 
@@ -25,7 +23,6 @@ function lastNDays(n) {
 }
 
 export default function Progress() {
-  const navigate = useNavigate();
   const [profile, setProfile] = useState(getProfile());
   const [editing, setEditing] = useState(false);
   const [nameInput, setNameInput] = useState(profile.name);
@@ -37,7 +34,13 @@ export default function Progress() {
   const streak = computeStreak(history);
   const days = lastNDays(14);
   const today = todayKey();
-  const pillars = getPillarScores();
+
+  // Normalize best scores (0-100 scale) for the 3-axis radar chart
+  const radarScores = {
+    echo: Math.min(100, (scores.echo || 0) * 10),       // level 10 = 100%
+    grid: Math.min(100, (scores.grid || 0) * 12.5),    // level 8 = 100%
+    pattern: Math.min(100, (scores.pattern || 0) * 15), // streak 7 = 100%
+  };
 
   const saveName = () => {
     const updated = { ...profile, name: nameInput.trim() || "Guest" };
@@ -50,8 +53,6 @@ export default function Progress() {
     { key: "echo",      label: "Echo",          sub: "best round",  color: "text-amber" },
     { key: "grid",      label: "Grid",          sub: "best round",  color: "text-violet" },
     { key: "pattern",   label: "Pattern",       sub: "best streak", color: "text-mint" },
-    { key: "factcheck", label: "AI Fact-Check", sub: "best score",  color: "text-coral" },
-    { key: "compress",  label: "Compress It",   sub: "best score",  color: "text-[#c084fc]" },
   ];
 
   return (
@@ -102,28 +103,20 @@ export default function Progress() {
         </div>
       </div>
 
-      {/* Skill Radar + Retake Assessment */}
+      {/* Skill Radar */}
       <div className="bg-panel/80 border border-panelEdge rounded-xl2 p-6 mb-5">
-        <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-          <div>
-            <h3 className="font-display text-lg text-ink">Skill Radar</h3>
-            <p className="text-muted text-xs font-mono mt-0.5">
-              Your relative strength across all four pillars
-            </p>
-          </div>
-          <button
-            onClick={() => navigate("/assess")}
-            className="border border-panelEdge text-muted hover:text-ink hover:border-mint text-xs font-mono rounded-full px-4 py-1.5 transition-colors"
-          >
-            Retake assessment
-          </button>
+        <div className="mb-5">
+          <h3 className="font-display text-lg text-ink">Skill Radar</h3>
+          <p className="text-muted text-xs font-mono mt-0.5">
+            Your relative performance profile across the three core games
+          </p>
         </div>
         <div className="flex justify-center">
-          <RadarChart scores={pillars} />
+          <RadarChart scores={radarScores} />
         </div>
       </div>
 
-      {/* Best scores — all 5 games */}
+      {/* Best scores */}
       <div className="grid sm:grid-cols-3 gap-3 mb-5">
         {gameCards.map((g) => (
           <div key={g.key} className="bg-panel/80 border border-panelEdge rounded-xl2 p-4 text-center">

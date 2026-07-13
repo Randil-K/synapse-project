@@ -8,7 +8,6 @@ export default function Home() {
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const cards = [
-    // ── Pillar 1 & 2: Built games ──────────────────────────────────────────
     {
       to: "/play/echo",
       accent: "#e8a33d",
@@ -36,25 +35,6 @@ export default function Home() {
       best: scores.pattern,
       label: "Best streak",
     },
-    // ── Pillar 3 & 4: New Phase 2 games ───────────────────────────────────
-    {
-      to: "/play/factcheck",
-      accent: "#f26d5b",
-      pillar: "Critical",
-      name: "AI Fact-Check",
-      desc: "Find the planted hallucination in an AI-style answer. The most on-theme game in the arcade.",
-      best: scores.factcheck,
-      label: "Best score",
-    },
-    {
-      to: "/play/compress",
-      accent: "#c084fc",
-      pillar: "Problem",
-      name: "Compress It",
-      desc: "Rewrite a 70-word paragraph in ≤ 20 words without losing the key idea. Precision thinking.",
-      best: scores.compress,
-      label: "Best score",
-    },
   ];
 
   return (
@@ -65,13 +45,13 @@ export default function Home() {
         {/* Hero */}
         <div className="text-center py-8">
           <div className="font-mono text-xs uppercase tracking-[0.12em] text-mint/85 mb-2">
-            cognitive resistance training
+            a small arcade for your working memory
           </div>
           <h1 className="font-display text-5xl md:text-6xl font-semibold bg-gradient-to-r from-ink to-mint bg-clip-text text-transparent leading-none">
             Synapse
           </h1>
           <p className="text-muted text-[15.5px] mt-3 max-w-md mx-auto">
-            Five short games to keep the skills AI is quietly offloading sharp.
+            Three short games built to stretch recall, working memory, and logical reasoning.
           </p>
 
           {/* ── About trigger — placed directly under tagline ── */}
@@ -113,7 +93,7 @@ export default function Home() {
             ">
               i
             </span>
-            <span className="relative z-10">Why does this exist?</span>
+            <span className="relative z-10">How does this work?</span>
             <span className="relative z-10 text-muted/50 group-hover:text-mint/60 transition-colors">→</span>
           </button>
         </div>
@@ -148,19 +128,13 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Daily challenge + Learn CTAs */}
+        {/* Daily challenge CTA */}
         <div className="flex flex-wrap gap-3 justify-center mt-10 mb-4">
           <Link
             to="/daily"
             className="inline-block bg-panel/80 border border-panelEdge rounded-full px-6 py-3 text-sm text-ink hover:border-amber transition-colors"
           >
             🔥 Today's Daily Challenge →
-          </Link>
-          <Link
-            to="/learn"
-            className="inline-block bg-panel/80 border border-panelEdge rounded-full px-6 py-3 text-sm text-ink hover:border-mint transition-colors"
-          >
-            📖 Micro-lessons →
           </Link>
         </div>
 

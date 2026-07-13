@@ -8,57 +8,42 @@ const SECTIONS = [
     color: "#e8a33d",
     title: "What is Synapse?",
     body: [
-      "Synapse is a short, daily cognitive resistance-training session — five focused games designed to actively exercise the mental skills that AI tools are quietly handling for you.",
-      "This is not generic 'brain training.' Every game targets a specific, nameable skill: memory recall, pattern reasoning, critical thinking, or compression under constraints — chosen because these are exactly the skills most at risk of atrophy in an AI-assisted world.",
+      "Synapse is a small personal arcade built for your working memory, attention, and logical reasoning. It consists of three focused games that challenge different areas of active thinking.",
+      "The app runs entirely offline with local storage, meaning no accounts, no subscriptions, and zero ads. It is designed to be a clean, five-minute daily habit to stretch your mind.",
     ],
   },
   {
-    id: "problem",
+    id: "science",
     icon: "🧠",
     color: "#4fd1c5",
-    title: "The AI impact on your thinking",
+    title: "How does it help your brain?",
     body: [
-      "As AI absorbs more everyday tasks — writing emails, fact-checking, summarising, planning, decision-making — the human brain gets less practice at those tasks. Neuroscientists call this cognitive offloading: outsourcing mental effort to an external tool.",
-      "A 2025 study of 666 participants found a significant negative correlation between frequent AI usage and critical thinking ability. An MIT Media Lab EEG study found people writing with ChatGPT showed the lowest brain engagement across 32 regions — lower than using a search engine or no tool at all.",
-      "The effect is strongest in 17–35 year olds — the exact demographic that uses AI tools most heavily.",
+      "Just like physical exercise, consistent daily cognitive workouts help keep your mind active. Working memory (storing and manipulating information short-term) and pattern reasoning are fundamental building blocks of focus and problem solving.",
+      "Scientific research suggests that short, daily sessions of focused mental tasks are far more effective for cognitive habit formation than occasional long marathon sessions. Synapse is designed to fit right into your daily routine.",
     ],
-    highlight: "Frequent AI use correlates with measurably lower critical thinking scores.",
   },
   {
-    id: "solution",
+    id: "games",
     icon: "⚡",
     color: "#8aa6ff",
-    title: "How Synapse fights back",
+    title: "Three training modes",
     body: [
-      "Synapse gives those underused circuits deliberate, short bursts of exercise — not to fight AI, but to stay sharp alongside it.",
-      "The four training pillars are: Memory & Recall, Pattern & Analytical Reasoning, Critical Thinking (including catching AI hallucinations), and Problem Solving under real constraints.",
-      "Each session takes 5 minutes or less. The streak mechanic builds a daily habit over time — research shows consistent short practice beats occasional long sessions for skill retention.",
+      "Each game targets a unique cognitive mechanism to exercise your recall and analytical skills:",
     ],
     stats: [
-      { label: "Memory", icon: "🟡", desc: "Echo · Grid" },
-      { label: "Pattern", icon: "🟢", desc: "Pattern" },
-      { label: "Critical", icon: "🔴", desc: "AI Fact-Check" },
-      { label: "Problem", icon: "🟣", desc: "Compress It" },
+      { label: "Echo", icon: "🟡", desc: "Sequence recall & auditory memory loop" },
+      { label: "Grid", icon: "🔵", desc: "Spatial recall & working memory expansion" },
+      { label: "Pattern", icon: "🟢", desc: "Rule inference & logical sequence reasoning" },
     ],
   },
   {
-    id: "difference",
+    id: "approach",
     icon: "🔬",
     color: "#f26d5b",
-    title: "What makes it different",
+    title: "An honest approach",
     body: [
-      "Most brain-training apps use abstract puzzles. Synapse leans toward near-real tasks: spotting a fabricated claim in an AI-style answer, compressing an argument under a word limit, or catching a logical flaw — tasks that are useful in their own right, even before any transfer effect.",
-      "The skill radar chart on your Progress page shows four separate pillar scores instead of one meaningless overall number — because your strengths and weaknesses are different, and you deserve to see which is which.",
-    ],
-  },
-  {
-    id: "honesty",
-    icon: "📋",
-    color: "#c084fc",
-    title: "What we don't claim",
-    body: [
-      "We will never say Synapse boosts your IQ, prevents cognitive decline, or produces any clinical outcome. The 'brain training' category has a credibility problem — Lumosity paid a $2M FTC settlement for overstating these claims.",
-      "What we do claim, honestly: regular deliberate practice at reasoning tasks is better than no practice. The research supports that. Whether gains fully transfer to every area of life is uncertain. We say so plainly — and that honesty is itself part of what makes Synapse trustworthy.",
+      "Many brain training apps make bold, unproven claims about boosting your IQ or delaying cognitive diseases. Synapse takes a different path.",
+      "We do not make medical or clinical claims. Think of these games like stretching exercises: they challenge your focus and memory in a fun, game-like setting. We believe that deliberate, focused practice is a healthy daily habit — nothing more, nothing less.",
     ],
   },
 ];
@@ -75,12 +60,16 @@ export default function AboutModal({ open, onClose }) {
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   // Close on Escape
   useEffect(() => {
-    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    const handler = (e) => {
+      if (e.key === "Escape") onClose();
+    };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
@@ -110,9 +99,9 @@ export default function AboutModal({ open, onClose }) {
         <div className="flex items-center justify-between px-7 pt-7 pb-5 border-b border-panelEdge flex-shrink-0">
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.12em] text-mint/80 mb-1">
-              About this system
+              About this arcade
             </div>
-            <h2 className="font-display text-2xl text-ink">Why Synapse exists</h2>
+            <h2 className="font-display text-2xl text-ink">How Synapse works</h2>
           </div>
           <button
             onClick={onClose}
@@ -152,27 +141,13 @@ export default function AboutModal({ open, onClose }) {
                   </p>
                 ))}
 
-                {/* Optional highlighted callout */}
-                {s.highlight && (
-                  <div
-                    className="mt-3 rounded-xl px-4 py-3 border-l-4 text-[13px] leading-relaxed"
-                    style={{
-                      borderColor: s.color,
-                      background: s.color + "12",
-                      color: s.color,
-                    }}
-                  >
-                    <strong>Research finding: </strong>{s.highlight}
-                  </div>
-                )}
-
                 {/* Optional pillar stats grid */}
                 {s.stats && (
-                  <div className="grid grid-cols-2 gap-2 mt-3">
+                  <div className="grid grid-cols-1 gap-2 mt-3">
                     {s.stats.map((st) => (
                       <div
                         key={st.label}
-                        className="flex items-center gap-2 bg-[#0f2a2e] border border-panelEdge rounded-xl px-3 py-2"
+                        className="flex items-center gap-3 bg-[#0f2a2e] border border-panelEdge rounded-xl px-4 py-2"
                       >
                         <span className="text-base">{st.icon}</span>
                         <div>
@@ -187,10 +162,9 @@ export default function AboutModal({ open, onClose }) {
             </div>
           ))}
 
-          {/* Source footnote */}
-          <div className="text-muted text-[11px] font-mono leading-relaxed pb-2">
-            Sources: Gerlich (2025), MIT Media Lab EEG study (2025), FTC v. Lumos Labs (2016).<br />
-            Synapse makes no clinical claims. See Micro-lessons for full details.
+          {/* Footnote */}
+          <div className="text-muted text-[11px] font-mono leading-relaxed pb-2 text-center">
+            Synapse runs entirely locally on your device.
           </div>
         </div>
 
@@ -200,7 +174,7 @@ export default function AboutModal({ open, onClose }) {
             onClick={onClose}
             className="w-full bg-gradient-to-r from-amber to-[#e8a33d] text-[#1c1305] font-semibold rounded-full py-3 text-sm hover:-translate-y-0.5 active:scale-95 transition-transform shadow-[0_8px_22px_-8px_#e8a33d88]"
           >
-            Got it — let's train →
+            Got it — let's play →
           </button>
         </div>
       </div>

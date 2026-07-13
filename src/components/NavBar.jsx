@@ -35,14 +35,6 @@ export default function NavBar() {
         >
           Progress
         </NavLink>
-        <NavLink
-          to="/learn"
-          className={({ isActive }) =>
-            `${linkBase} ${isActive ? "bg-amber text-[#1c1305]" : "text-muted hover:text-ink"}`
-          }
-        >
-          Learn
-        </NavLink>
       </nav>
     </div>
   );

@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 
-const AXES = ["Memory", "Pattern", "Critical", "Problem"];
-const AXIS_KEYS = ["memory", "pattern", "critical", "problem"];
-const AXIS_COLORS = ["#e8a33d", "#4fd1c5", "#f26d5b", "#8aa6ff"]; // amber, mint, coral, violet
+const AXES = ["Echo", "Grid", "Pattern"];
+const AXIS_KEYS = ["echo", "grid", "pattern"];
+const AXIS_COLORS = ["#e8a33d", "#8aa6ff", "#4fd1c5"]; // amber, violet (blue), mint
 
 const SIZE = 220;
 const CENTER = SIZE / 2;
@@ -172,7 +172,7 @@ export default function RadarChart({ scores }) {
       </svg>
 
       {/* Legend */}
-      <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+      <div className="grid grid-cols-3 gap-x-6 gap-y-1">
         {AXIS_KEYS.map((key, i) => (
           <div key={key} className="flex items-center gap-2">
             <span
@@ -181,7 +181,7 @@ export default function RadarChart({ scores }) {
             />
             <span className="font-mono text-[11px] text-muted">{AXES[i]}</span>
             <span
-              className="font-mono text-[11px] font-semibold ml-auto"
+              className="font-mono text-[11px] font-semibold ml-1"
               style={{ color: AXIS_COLORS[i] }}
             >
               {scores[key] || 0}
@@ -192,7 +192,7 @@ export default function RadarChart({ scores }) {
 
       {allZero && (
         <p className="text-muted text-xs font-mono text-center mt-1">
-          Complete the assessment to seed your radar chart.
+          Play games to see your skill levels.
         </p>
       )}
     </div>
