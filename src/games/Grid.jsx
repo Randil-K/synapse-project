@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import GameShell from "../components/GameShell";
-import { useBeep } from "../lib/useBeep";
+import { useSound } from "../lib/useSound";
 import { recordScore, addXP } from "../lib/storage";
 
 function dims(level) {
@@ -19,6 +19,7 @@ export default function Grid() {
   const [msg, setMsg] = useState("Memorize the tiles that light up.");
   const [best, setBest] = useState(() => JSON.parse(localStorage.getItem("brainarcade:scores") || "{}").grid || 0);
   const litRef = useRef([]);
+  const { playTap, playFlash, playSuccess, playFailure } = useSound();
 
   const playRound = (lvl) => {
     const { size: s, count } = dims(lvl);
@@ -30,6 +31,10 @@ export default function Grid() {
     setLit(idxs);
     setPhase("memorize");
     setMsg("Memorize…");
+
+    // Play a soft droplet chime when the flash sequence starts
+    playFlash(lvl);
+
     setTimeout(() => {
       setLit([]);
       setPhase("input");
@@ -38,6 +43,7 @@ export default function Grid() {
   };
 
   const start = () => {
+    playTap(1);
     setLevel(1);
     playRound(1);
   };
@@ -46,12 +52,17 @@ export default function Grid() {
     if (phase !== "input" || picked.includes(i)) return;
     const next = [...picked, i];
     setPicked(next);
+
+    // Dynamic pitch haptic tap — pitches up as the player selects more tiles
+    playTap(1 + next.length * 0.1);
+
     if (next.length === litRef.current.length) {
       const correct = next.every((p) => litRef.current.includes(p));
       setReveal(true);
       setPhase("checking");
       setTimeout(() => {
         if (correct) {
+          playSuccess();
           setMsg("Correct — next round.");
           setPhase("input");
           setLevel((l) => {
@@ -60,6 +71,7 @@ export default function Grid() {
             return nl;
           });
         } else {
+          playFailure();
           setPhase("over");
           const scores = recordScore("grid", level);
           addXP(level * 4);
